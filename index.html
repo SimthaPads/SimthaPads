@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SimthaPads - Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Shop.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header and navigation bar-->
+    <header>
+        <a href="index.html"><img src="img-assets/Black_White_Simple_Monochrome_Initial_Name_Logo-removebg-preview.png" alt="SimthaPads Logo" class="logo"></a>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="about-simthapads.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="our-mission.html">Our Mission</a></li>
+            <li><a href="news.html">News</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero section-->
+    <section class="hero">
+        <img src="img-assets/Untitled design.png" alt="Welcome Image">
+
+        <div class="hero-text">
+            <h1>Welcome to Simtha Pads</h1>
+            <p>At Simtha Pads, our mission is to reinstate a sense of dignity and pride among individuals across diverse backgrounds. <br>
+                We aspire to empower countless young women throughout Africa, facilitating a life unfettered by embarrassment, fear, or ridicule resulting from limited access to sanitary pads due to financial constraints. <br>
+                <br>
+                Our commitment extends beyond mere inclusivity; we are dedicated to fostering positive change. <br>
+                By ensuring that no one is marginalized, we actively contribute to cultivating a healthier environment—one that is devoid of plastic pollution. <br>
+                At Simtha Pads, we passionately strive to make a profound impact, shaping a future where every individual can embrace their inherent dignity with confidence. <br>
+                Join us in championing this transformative journey towards empowerment and environmental responsibility.
+            </p>
+            <a href="our-mission.html"><button>Our Mission</button></a>
+        </div>
+    </section>
+
+    <!-- Product Section -->
+    <div class="container">
+        <h1 class="title">our products</h1>
+        <div class="products-container">
+            <div class="product" data-name="p-1">
+                <img src="img-assets/p1.jpg" alt="Color Dots">
+                <h3 class="product-name">Dotted Queen</h3>
+                <div class="price"><button class="price-btn">R99,95</button></div>
+                <p>+R14.90 Delivery fee</p>
+            </div>
+            <div class="product" data-name="p-2">
+                <img src="img-assets/p2.jpg" alt="Black Panther">
+                <h3 class="product-name">Black Panther</h3>
+                <div class="price"><button class="price-btn">R149,95</button></div>
+                <p>+R14.90 Delivery fee</p>
+            </div>
+            <div class="product" data-name="p-3">
+                <img src="img-assets/p3.jpg" alt="Pink Panther">
+                <h3 class="product-name">Pink Panther</h3>
+                <div class="price"><button class="price-btn">R199,95</button></div>
+                <p>+R14.90 Delivery fee</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="prod-cart" style="display: none;">
+        <p>Product: <span id="prod-cart-name"></span></p>
+        <p>Quantity: 
+            <span id="quantity">
+                <button class="minus">-</button>
+                <span class="qty"></span>
+                <button class="plus">+</button>
+            </span>
+        </p>
+        <p>Delivery fee: <span id="delivery-fee">+R14.90</span></p>
+        <p>Price:<span id="price-display"></span></p>
+        <button type="button">Purchase</button>
+        <br>
+        <br>
+        <button type="button" id="clear-reset">Clear Cart</button>
+    </div>
+
+   <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const priceButtons = document.querySelectorAll('.price-btn');
+    const quantityElement = document.querySelector('.qty');
+    const minusButton = document.querySelector('.minus');
+    const plusButton = document.querySelector('.plus');
+    const cart = document.querySelector('.prod-cart');
+    const clearCartButton = document.getElementById('clear-reset');
+    let totalPrice = 0; // Initialize total price
+
+    // Attach event listeners for quantity adjustment buttons
+    minusButton.addEventListener('click', function() {
+        let quantity = parseInt(quantityElement.textContent);
+        if (quantity > 0) {
+            quantity--;
+            quantityElement.textContent = quantity;
+            totalPrice -= price;
+            updateTotalPrice();
+        }
+    });
+
+    plusButton.addEventListener('click', function() {
+        let quantity = parseInt(quantityElement.textContent);
+        quantity++;
+        quantityElement.textContent = quantity;
+        totalPrice += price;
+        updateTotalPrice();
+    });
+
+    // Attach event listener for Clear Cart button
+    clearCartButton.addEventListener('click', resetCart);
+
+    // Attach event listeners for price buttons
+    priceButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Reset cart when clicking on a different product
+            resetCart();
+
+            // Enlist the item name on the cart
+            const productName = button.parentElement.previousElementSibling.textContent;
+            document.getElementById('prod-cart-name').textContent = productName;
+
+            // Extract price
+            const priceText = button.textContent.trim();
+            const price = parseFloat(priceText.replace('R', '').replace(',', '.'));
+
+            // Add price to total
+            totalPrice += price;
+            updateTotalPrice();
+
+
+            // Make the cart visible with transition effect
+            cart.style.display = 'block';
+        });
+    });
+
+    function resetCart() {
+        cart.style.display = 'none';
+        document.getElementById('prod-cart-name').textContent = '';
+        quantityElement.textContent = '0';
+        totalPrice = 0;
+        updateTotalPrice();
+    }
+
+    function updateTotalPrice() {
+        document.getElementById('price-display').textContent = 'R' + totalPrice.toFixed(2);
+    }
+});
+
+   </script>
+    <!-- Newsletter-->
+    <section class="newsletter">
+        <h2>Subscribe To Our Newsletter</h2>
+        <form action="newsletter-subscribe.php" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </section>
+
+    <!-- Footer-->
+    <footer>
+        <ul>
+            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+        </ul>
+        <p>© SimthaPads 2023</p>
+    </footer>
+
+    <script src="DataImport.js"></script>
+
+    
+</body>
+</html>
