@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Billing - SimthPads</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="billing-form.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header and navigation bar-->
+    <header>
+        <a href="index.html"><img src="img-assets/Black_White_Simple_Monochrome_Initial_Name_Logo-removebg-preview.png" alt="Logo" class="logo"></a>
+    </header>
+
+    <!-- Hero Section-->
+    <section class="bill-container">
+        <div class="bill-form">
+            <form method="post" action="https://script.google.com/macros/s/AKfycbxyxFToGUtR0qwKctlhCG47ltubGO7uRRad6iNiN9-c_s8F43BKtq_DHtUidAjkgLSUPg/exec" name="billing-form" id="billing">
+                <div class="basic-info">
+                    <h3>Basic Info</h3>
+                    <input type="text" placeholder="Name" name="FirstName" required></input>
+                    <input type="text" placeholder="Surname" name="LastName" required></input>
+                    <br>
+                    <br>
+                    <input type="text" placeholder="Gender" name="Gender"></input>
+                </div>
+
+                <div class="bill-address">
+                    <h3>Address Info</h3>
+                    <input type="text" placeholder="Street Address" name="StreetAddress" required></input>
+                    <input type="text" placeholder="Town" name="Town" required></input>
+                    <br>
+                    <br>
+                    <input type="text" placeholder="City" name="City" required></input>
+                    <input type="number" placeholder="Postal Code" name="PostalCode" required></input>
+                </div>
+
+                <div class="contact-details">
+                    <h3>Contact Details</h3>
+                    <input type="tel" placeholder="Phone Number" name="PhoneNumber" required></input>
+                    <input type="email" placeholder="Email address" name="EmailAddress" id="email-address" required></input>
+                    <br>
+                    <br>
+                    <input type="tel" placeholder="Alternative Phone" name="Emerg-Phone" required></input>
+                    <input type="email" placeholder="Alternative Email" name="Alt-Email" required></input>
+                </div>
+
+                <div class="promo-section">
+                    <h3>Promo code</h3>
+                    <input id="promoInput" name="promo-code" placeholder="Enter 10% Promo Code" list="scripts"><button type="submit">Apply Promo Code</button>
+                    <datalist id="scripts">
+                        <option value="Linathi-101EC"></option>
+                        <option value="Sine-101EC"></option>
+                        <option value="Manga-101EC"></option>
+                        <option value="Busi-101EC"></option>
+                        <option value="Mthoko-101EC"></option>
+                        <option value="Ayanda-101EC"></option>
+                        <option value="Sive-101EC"></option>
+                        <option value="Zonke-101EC"></option>
+                        <option value="Sima-101WC"></option>
+                        <option value="Asemahle-101WC"></option>
+                        <option value="Lerato-101MP"></option>
+                    </datalist>
+
+                    <script>
+                        // JavaScript code to hide datalist options and handle promo code application
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Hide datalist options
+var datalistOptions = document.querySelectorAll('#scripts option');
+datalistOptions.forEach(function(option) {
+    option.value = ''; // Hide each option's value
+});
+
+
+    // Function to handle promo code application
+    function applyPromoCode() {
+        var promoCodeInput = document.getElementById('promoInput').value.trim(); // Get the promo code input value
+        var promoCodes = ['Linathi-101EC', 'Sine-101EC', 'Manga-101EC', 'Busi-101EC', 'Mthoko-101EC', 'Ayanda-101EC', 'Sive-101EC', 'Zonke-101EC', 'Sima-101WC', 'Asemahle-101WC', 'Lerato-101MP'];
+
+        // Check if the entered promo code is valid
+        if (promoCodes.includes(promoCodeInput)) {
+            // Promo code is valid, apply 10% discount
+            var totalPriceElement = document.getElementById('Total-Price');
+            var currentTotal = parseFloat(totalPriceElement.textContent.trim());
+            var discountedTotal = currentTotal * 0.9; // Subtract 10%
+
+            // Update the total price display
+            totalPriceElement.textContent = discountedTotal.toFixed(2); // Display new total with two decimal places
+
+            alert('Promo code applied successfully!');
+        } else {
+            alert('Invalid promo code. Please try again.');
+        }
+    }
+
+    // Attach click event listener to the "Apply Promo Code" button
+    var applyPromoButton = document.querySelector('.promo-section button[type="submit"]');
+    applyPromoButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent form submission for demonstration
+
+        applyPromoCode(); // Call function to apply promo code
+    });
+});
+
+                    </script>
+                </div>
+
+                <div class="confirm-order">
+                    <h3>Verify Order</h3>
+                    <p>Product: <span id="ProductName"></span></p>
+                    <p>Quantity: <span id="Quantity"></span></p>
+                    <p>Delivery fee: <span id="DeliveryFee"></span></p>
+                    <p>Unit Price:<span id="T-Price"></span></p>
+                    <p>Total Price:<span id="Total-Price"></span></p>
+                    <script>
+                        // Retrieve data from localStorage
+                        var productName = localStorage.getItem('productName');
+                        var quantity = localStorage.getItem('quantity');
+                        var deliveryFee = localStorage.getItem('deliveryFee');
+                        var price = localStorage.getItem('price');
+                        
+                        // Display data in the billing form
+                        document.getElementById('ProductName').textContent = productName;
+                        document.getElementById('Quantity').textContent = quantity;
+                        document.getElementById('DeliveryFee').textContent = deliveryFee;
+                        document.getElementById('T-Price').textContent = price;
+                        document.getElementById('Total-Price').textContent = (parseFloat(price) + parseFloat(deliveryFee)).toFixed(2);
+                    </script>
+                    <script src="total.js"></script>
+                </div>
+
+                <div class="submit-button">
+                    <button type="submit" onclick="payWithPaystack()" id="payButton">Pay via card <i class="fas fa-card"></i></button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer-->
+    <footer>
+        <ul>
+            <li><a href="https://www.facebook.com/profile.php?id=61559351021750"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="https://twitter.com/simthapads"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="https://www.instagram.com/simtha_pads/"><i class="fab fa-instagram"></i></a></li>
+        </ul>
+        <p>© SimthaPads 2023</p>
+    </footer>
+
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="payment.js"></script>
+    <script src="Data-Transit.js"></script>
+    <script src="DataImport.js"></script>
+
+    
+    
+</body>
+</html>
